@@ -51,3 +51,44 @@ window.addEventListener('scroll', () => {
 });
 
 navbar.style.transition = 'transform 0.3s ease';
+
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+    }
+  });
+}, observerOptions);
+
+const revealElements = document.querySelectorAll('.scroll-reveal');
+revealElements.forEach(element => observer.observe(element));
+
+const categoryCards = document.querySelectorAll('.category-card');
+categoryCards.forEach((card, index) => {
+  card.style.animationDelay = `${index * 0.1}s`;
+});
+
+const sdgCards = document.querySelectorAll('.sdg-card');
+sdgCards.forEach((card, index) => {
+  card.style.animationDelay = `${index * 0.15}s`;
+});
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.pageYOffset;
+  const heroContent = document.querySelector('.hero-content');
+  const heroBird = document.querySelector('.hero-bird');
+
+  if (heroContent) {
+    heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+    heroContent.style.opacity = 1 - (scrolled / 500);
+  }
+
+  if (heroBird) {
+    heroBird.style.transform = `translateY(${scrolled * 0.2}px) translateX(${scrolled * 0.1}px)`;
+  }
+});
